@@ -9,4 +9,5 @@ public interface PersonaNegocio {
 	public boolean insert(Persona persona);
 	public boolean delete(Persona persona_a_eliminar);
 	public List<Persona> readAll();
+	public boolean exists(String dni);
 }

@@ -1,4 +1,4 @@
-package negociolmpl;
+package negocioImpl;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import entidad.Persona;
 import negocio.PersonaNegocio;
 
 import dao.*;
-import daolmpl.personaDaoImpl;
+import daoImpl.personaDaoImpl;
 
 public class PersonaNegocioImpl implements PersonaNegocio {
 
@@ -14,10 +14,11 @@ public class PersonaNegocioImpl implements PersonaNegocio {
 	
 	@Override
 	public boolean insert(Persona persona) {
-		
 		boolean estado=false;
-		
-		
+		if(persona.getDNI().trim().length()>0 && persona.getNombre().trim().length()>0 && persona.getApellido().trim().length()>0)
+		{
+			estado=pdao.insert(persona);
+		}
 		return estado;
 	}
 
@@ -31,6 +32,16 @@ public class PersonaNegocioImpl implements PersonaNegocio {
 	public List<Persona> readAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean exists(String dni) {
+		boolean estado = false;
+		if(pdao.exists(dni) )
+		{
+			estado = true;
+		}
+		return estado;
 	}
 
 	

@@ -8,4 +8,5 @@ public interface PersonaDAO {
 	public boolean insert(Persona per);
 	public boolean delete(Persona perDelete);
 	public List<Persona> readAll();
+	public boolean exists(String dni);
 }
