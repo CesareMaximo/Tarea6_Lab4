@@ -34,7 +34,7 @@ public class PanelListarPersona extends JPanel {
 		
 		tablaPersonas = new JTable(modelPersonas);
 		tablaPersonas.setBounds(10, 11, 380, 253);
-		
+		tablaPersonas.getTableHeader().setReorderingAllowed(false);
 		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
 		tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(100);
