@@ -21,6 +21,7 @@ public class Controlador implements ActionListener {
 	private PanelAgregarPersona pnlIngresoPersonas;
 	private PanelEliminarPersona pnlEliminarPersona;
 	private PanelModificarPersona pnlModificarPersona;
+	private PanelListarPersona pnlListarPersona;
 
 	private PersonaNegocio pNeg;
 
@@ -33,13 +34,16 @@ public class Controlador implements ActionListener {
 		this.pnlIngresoPersonas = new PanelAgregarPersona();
 		this.pnlEliminarPersona = new PanelEliminarPersona();
 		this.pnlModificarPersona = new PanelModificarPersona();
+		this.pnlListarPersona = new PanelListarPersona();
 
 		this.refrescarLista();
+		this.refrescarTablas();
 
 		// Eventos abrir paneles
 		this.ventanaPrincipal.getMntmAgregar().addActionListener(a -> EventoClickMenu_AbrirPanel_AgregarPersona(a));
 		this.ventanaPrincipal.getMntmEliminar().addActionListener(a -> EventoClickMenu_AbrirPanel_EliminarPersona(a));
 		this.ventanaPrincipal.getMntmModificar().addActionListener(a -> EventoClickMenu_AbrirPanel_ModificarPersona(a));
+		this.ventanaPrincipal.getMntmListar().addActionListener(a->EventoClickMenu_AbrirPanel_ListarPersona(a));
 
 		// Evento Agregar persona
 		this.pnlIngresoPersonas.getBtnAceptar()
@@ -146,6 +150,16 @@ public class Controlador implements ActionListener {
 		ventanaPrincipal.getContentPane().revalidate();
 	}
 	
+	public void EventoClickMenu_AbrirPanel_ListarPersona(ActionEvent a)
+	{	
+		this.refrescarTablas();
+		ventanaPrincipal.getContentPane().removeAll();
+		ventanaPrincipal.getContentPane().add(pnlListarPersona);
+		ventanaPrincipal.setSize(420, 350);
+		ventanaPrincipal.getContentPane().repaint();
+		ventanaPrincipal.getContentPane().revalidate();
+	}		
+	
 	private void EventoClickBoton_AgregarPesona_PanelAgregarPersonas(ActionEvent a) {
 		String apellido = this.pnlIngresoPersonas.getTxtApellido().getText();
 		String nombre = this.pnlIngresoPersonas.getTxtNombre().getText();
@@ -174,7 +188,8 @@ public class Controlador implements ActionListener {
 		}
 
 		this.ventanaPrincipal.mostrarMensaje(mensaje);
-		refrescarLista();
+		this.refrescarLista();
+		this.refrescarTablas();
 	}
 
 	public void EventoClickBoton_BorrarPesona_PanelEliminarPersonas(ActionEvent s) {
@@ -189,8 +204,8 @@ public class Controlador implements ActionListener {
 			this.pnlEliminarPersona.mostrarMensaje(mensaje);
 		}
 
-		// this.refrescarTabla();
 		this.refrescarLista();
+		this.refrescarTablas();
 	}
 
 	private void Seleccion(ListSelectionEvent a) {
@@ -227,8 +242,8 @@ public class Controlador implements ActionListener {
 			}
 
 			JOptionPane.showMessageDialog(null, mensaje);
-			refrescarLista();
-			// refrescarTabla();
+			this.refrescarLista();
+			this.refrescarTablas();
 
 		}
 	}
@@ -249,6 +264,11 @@ public class Controlador implements ActionListener {
 
 	}
 
+	private void refrescarTablas()
+	{	
+		personasEnTabla = (ArrayList<Persona>) pNeg.readAll();
+		pnlListarPersona.llenarTabla(personasEnTabla);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
