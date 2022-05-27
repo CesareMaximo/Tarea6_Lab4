@@ -3,57 +3,49 @@ package entidad;
 public class Persona {
 
 	private String DNI;
-	private String Nombre;
-	private String Apellido;
+	private String nombre;
+	private String apellido;
 	
 	public Persona() {}
 
 	
-	
-	
-	public Persona(String dNI, String nombre, String apellido) {
+	public Persona(String dni, String nombre, String apellido) {
 		super();
-		DNI = dNI;
-		Nombre = nombre;
-		Apellido = apellido;
+		this.DNI = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
 	}
-
-
-
 
 	//Metodo Tostring
 	
 	@Override
 	public String toString() {
-		return "Persona [DNI=" + DNI + ", Nombre=" + Nombre + ", Apellido=" + Apellido + "]";
+		return nombre + " " + apellido + " - " + DNI;
 	}
-
-
-
 
 	//Getters and setters
 	public String getDNI() {
 		return DNI;
 	}
 
-	public void setDNI(String dNI) {
-		DNI = dNI;
+	public void setDNI(String dni) {
+		this.DNI = dni;
 	}
 
 	public String getNombre() {
-		return Nombre;
+		return nombre;
 	}
 
 	public void setNombre(String nombre) {
-		Nombre = nombre;
+		this.nombre = nombre;
 	}
 
 	public String getApellido() {
-		return Apellido;
+		return apellido;
 	}
 
 	public void setApellido(String apellido) {
-		Apellido = apellido;
+		this.apellido = apellido;
 	}
 	
 	

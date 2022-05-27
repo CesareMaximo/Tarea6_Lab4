@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 import entidad.Persona;
@@ -13,9 +15,10 @@ import presentacion.vista.*;
 
 public class Controlador  implements ActionListener{
 
-	
+	private ArrayList<Persona> personasEnTabla;
 	private VentanaPrincipal ventanaPrincipal;
 	private PanelAgregarPersona pnlIngresoPersonas;
+	private PanelEliminarPersona pnlEliminarPersona;
 	
 	private PersonaNegocio pNeg;
 	
@@ -26,10 +29,14 @@ public class Controlador  implements ActionListener{
 		
 		//Instancio los paneles		
 		this.pnlIngresoPersonas = new PanelAgregarPersona();
+		this.pnlEliminarPersona = new PanelEliminarPersona();
 		
+		this.refrescarLista();
 		
 		// Evento abrir panel Agregar Persona
 		this.ventanaPrincipal.getMntmAgregar().addActionListener(a->EventoClickMenu_AbrirPanel_AgregarPersona(a));
+		this.ventanaPrincipal.getMntmEliminar().addActionListener(a->EventoClickMenu_AbrirPanel_EliminarPersona(a));
+		
 		//Evento Agregar persona
 		this.pnlIngresoPersonas.getBtnAceptar().addActionListener(a->EventoClickBoton_AgregarPesona_PanelAgregarPersonas(a));
 		this.pnlIngresoPersonas.getTxtDni().addKeyListener(new KeyAdapter() {
@@ -53,6 +60,10 @@ public class Controlador  implements ActionListener{
 				}
 			}
 		});
+		
+		
+		// Evento ELIMINAR del Panel Eliminar Persona
+		this.pnlEliminarPersona.getBtnEliminar().addActionListener(s->EventoClickBoton_BorrarPesona_PanelEliminarPersonas(s));
 	}
 	
 	
@@ -63,6 +74,14 @@ public class Controlador  implements ActionListener{
 		ventanaPrincipal.getContentPane().repaint();
 		ventanaPrincipal.getContentPane().revalidate();
 		
+	}
+	
+	public void EventoClickMenu_AbrirPanel_EliminarPersona(ActionEvent a)
+	{		
+		ventanaPrincipal.getContentPane().removeAll();
+		ventanaPrincipal.getContentPane().add(pnlEliminarPersona);
+		ventanaPrincipal.getContentPane().repaint();
+		ventanaPrincipal.getContentPane().revalidate();
 	}
 	
 	private void EventoClickBoton_AgregarPesona_PanelAgregarPersonas(ActionEvent a) {
@@ -98,10 +117,37 @@ public class Controlador  implements ActionListener{
 		this.ventanaPrincipal.mostrarMensaje(mensaje);
 	}
 	
+	public void EventoClickBoton_BorrarPesona_PanelEliminarPersonas(ActionEvent s) {
+		
+		boolean estado=false;
+		Persona persona = (Persona) this.pnlEliminarPersona.getJlPersonas().getSelectedValue();
+		
+			estado = pNeg.delete(persona);
+			
+			if(estado==true)
+			{
+				String mensaje="Persona eliminada con exito";
+				this.pnlEliminarPersona.mostrarMensaje(mensaje);
+			}
+
+		//this.refrescarTabla();
+		this.refrescarLista();
+	}
+	
 	
 	public void inicializar()
 	{
 		this.ventanaPrincipal.setVisible(true);;
+	}
+	
+	private void refrescarLista() {
+		this.personasEnTabla = (ArrayList<Persona>) pNeg.readAll();
+		DefaultListModel<Persona> dModel = new DefaultListModel<Persona>();
+		for (Persona persona : personasEnTabla) {
+			dModel.addElement(persona);
+		}
+		this.pnlEliminarPersona.getJlPersonas().setModel(dModel);
+
 	}
 	
 	
