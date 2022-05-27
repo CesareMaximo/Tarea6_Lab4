@@ -9,4 +9,5 @@ public interface PersonaDAO {
 	public boolean delete(Persona perDelete);
 	public List<Persona> readAll();
 	public boolean exists(String dni);
+	public boolean update(Persona persona_a_modificar);
 }

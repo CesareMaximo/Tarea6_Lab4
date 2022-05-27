@@ -47,5 +47,15 @@ public class PersonaNegocioImpl implements PersonaNegocio {
 		return estado;
 	}
 
+	@Override
+	public boolean update(Persona persona) {
+		boolean estado=false;
+		if(pdao.update(persona))
+		{
+			estado = true;
+		}
+		return estado;
+	}
+
 	
 }
